@@ -27,6 +27,16 @@
 require('../config.php');
 require_once('lib.php');
 
+if($_SERVER['REQUEST_METHOD'] === 'GET')
+{
+    if($_SERVER['QUERY_STRING'] == "")
+    {
+        // Redirect to Shibboleth auth if 'altlogin' param is not supplied
+        header("Location: " . $CFG->httpswwwroot . "/auth/shibboleth/index.php");
+        exit();
+    }
+}
+
 // Try to prevent searching for sites that allow sign-up.
 if (!isset($CFG->additionalhtmlhead)) {
     $CFG->additionalhtmlhead = '';
