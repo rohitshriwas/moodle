@@ -2489,6 +2489,19 @@ class assign {
                                                                    $type .
                                                                    '_' .
                                                                    $zipfilename);
+                /*
+                   Changes the student submitted filename within the zip file, when instructors
+                   run a 'Download All Submissions' in an assignment. For ex. 200118TS123 - Assignment1.pdf
+                */
+
+                $course_name = explode('(', $this->get_course()->fullname);
+                if (($course_name[0] == 'Project ') || ($course_name[0] == 'Project Work ') || (strpos($course_name[0], 'Dissertation') !== false)) {
+                    $file_extension = explode('.', $zipfilename);
+                    $studentid = explode('@', strtoupper($student->username));
+                    $prefixedfilename = clean_filename($studentid[0] . ' - ' . $this->get_instance()->name .
+                                        '.' . $file_extension[count($file_extension) - 1]);
+                }
+
                                 $filesforzipping[$prefixedfilename] = $file;
                             }
                         }
